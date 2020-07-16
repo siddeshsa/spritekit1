@@ -26,6 +26,12 @@ class GameScene: SKScene {
         addChild(mySpriteKitNode)
         mySpriteKitNode.addChild(blueBox)
     }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        myFirstTexturedSpriteNode.run(SKAction.move(to: CGPoint(x: mySpriteKitNode.size.width, y: mySpriteKitNode.size.height), duration: 2.0))
+        
+        blueBox.run(SKAction.rotate(byAngle: CGFloat(M_PI), duration: 3.0))
+    }
 }
 
 
