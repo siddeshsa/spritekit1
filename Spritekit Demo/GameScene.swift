@@ -9,29 +9,27 @@
 import SpriteKit
 class GameScene: SKScene {
    
-    let myFirstNode = SKNode()
-    let mySpriteKitNode = SKSpriteNode(color: UIColor.red, size: CGSize(width: 200.0, height: 200.0))
-    let myFirstTexturedSpriteNode = SKSpriteNode(imageNamed: "Spaceship")
-    let blueBox = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 100.0, height: 100.0))
-    
+       let dogSpriteNode = SKSpriteNode(imageNamed: "Run0")
+    var dogFrames = [SKTexture]()
     
     override func didMove(to view: SKView) {
-        addChild(myFirstNode)
-        mySpriteKitNode.position = CGPoint(x: frame.midX, y: frame.midY)
-        mySpriteKitNode.anchorPoint = CGPoint.zero
-        mySpriteKitNode.addChild(myFirstTexturedSpriteNode)
-        myFirstTexturedSpriteNode.size = CGSize(width: 100.0, height: 100.0)
-        blueBox.zPosition = 2
-        blueBox.position = CGPoint(x: mySpriteKitNode.size.width/2, y: mySpriteKitNode.size.height/2)
-        addChild(mySpriteKitNode)
-        mySpriteKitNode.addChild(blueBox)
-    }
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        myFirstTexturedSpriteNode.run(SKAction.move(to: CGPoint(x: mySpriteKitNode.size.width, y: mySpriteKitNode.size.height), duration: 2.0))
+        dogSpriteNode.position = CGPoint(x: frame.midX, y: frame.midY)
+        addChild(dogSpriteNode)
         
-        blueBox.run(SKAction.rotate(byAngle: CGFloat(M_PI), duration: 3.0))
+        let textureAtlas = SKTextureAtlas(named: "Dog Frames")
+        for index in 0..<textureAtlas.textureNames.count{
+            let textureName = "Run" + String(index)
+            dogFrames.append(textureAtlas.textureNamed(textureName))
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !dogSpriteNode.hasActions(){
+        dogSpriteNode.run(SKAction.repeatForever(SKAction.animate(with: dogFrames, timePerFrame: 0.1)))
+        }else{
+            dogSpriteNode.removeAllActions()
+        }
+        
     }
 }
-
 
